@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { TodosContext } from '../../store/TodoProvider';
 import { TodosFilter } from '../TodosFilter/TodosFilter';
 import { TodoList } from '../TodoList/TodoList';
@@ -33,6 +33,11 @@ export const TodoApp: React.FC = () => {
     }
   };
 
+  const activeTodos = useMemo(
+    () => todos.filter(todo => !todo.completed),
+    [todos],
+  );
+
   return (
     <div className="todoapp">
       <header className="header">
@@ -59,7 +64,7 @@ export const TodoApp: React.FC = () => {
 
           <footer className="footer">
             <span className="todo-count" data-cy="todosCounter">
-              {`${todos.filter(item => !item.completed).length}  items left`}
+              {`${activeTodos.length} ${activeTodos.length === 1 ? 'item' : 'items'} left`}
             </span>
 
             <TodosFilter />
